@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Filmes em cartaz:</h1>
+        <h1 class="movies"></h1>
+        <p class="movies-descripto">:</p>
+        <img src="https://image.tmdb.org/t/p/original/8moTOzunF7p40oR5XhlDvJckOSW.jpg" alt="" class="imagens">
+    </body>
+    <script>
+        const URL = 'https://api.themoviedb.org/3/movie/upcoming?api_key=10ac6b308154d8d3da2368d25caa4778&language=pt-BR&page=1';
+        let dataMovie = null;
+        var text = "";
+        let desci = "";
+        let img = "";
+        let image = document.querySelector(".imagens");
+        fetch(URL, {
+        method: 'get'
+        })
+        .then(function(response) {
+            response.json().then(function(data){             
+            console.log(data.results.title); 
+            dataMovie = data.results;
+            for (i = 0; i < dataMovie.length; i++) {
+            text = dataMovie[i].title + "<br>";
+            desci += text + dataMovie[i].overview + "<br>";
+            img += "https://image.tmdb.org/t/p/original" + dataMovie[i].backdrop_path;
+            image.src = img;
+            image.setAttribute("width", "200");
+            image.setAttribute("height", "120");
+            document.querySelector('.movies-descripto').innerHTML = desci;
+            }
+            
+         });
+        })
+        .catch(function(err) {
+            console.error('Failed retrieving information', err);
+    })
+    </script>
+    </html>
